@@ -12,6 +12,7 @@ namespace Repository.Interfaces
         public void CreateNewClient(Client client);
         public Client GetClientById(int id);
         public Client GetClientByEmail(string email);
+        public Client GetClientByContactEmail(string contactEmail);
         public Client GetClientByPhone(string phone);
         public List<Client> GetAllClients();
         public void UpdateClient(Client client);

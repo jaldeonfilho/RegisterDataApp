@@ -20,9 +20,9 @@ namespace Services
         }
         public string CreateNewClient(Client client)
         {
-            _clientRepository.CreateNewClient(client);
             client.ContactAddressId = _addressServices.CreateNewAddress(client.ContactAddress);
             client.ContactAddress.Id = client.ContactAddressId;
+            _clientRepository.CreateNewClient(client);
             return "Client created with success\n";
         }
 
@@ -48,6 +48,24 @@ namespace Services
         public Client GetClientById(int id)
         {
             Client client = _clientRepository.GetClientById(id);
+            client.ContactAddress = _addressServices.GetAddressById(client.ContactAddressId);
+            return client;
+        }
+        public Client GetClientByEmail(string email)
+        {
+            Client client = _clientRepository.GetClientByEmail(email);
+            client.ContactAddress = _addressServices.GetAddressById(client.ContactAddressId);
+            return client;
+        }
+        public Client GetClientByContactEmail(string email)
+        {
+            Client client = _clientRepository.GetClientByContactEmail(email);
+            client.ContactAddress = _addressServices.GetAddressById(client.ContactAddressId);
+            return client;
+        }
+        public Client GetClientByPhone(string phone)
+        {
+            Client client = _clientRepository.GetClientByPhone(phone);
             client.ContactAddress = _addressServices.GetAddressById(client.ContactAddressId);
             return client;
         }

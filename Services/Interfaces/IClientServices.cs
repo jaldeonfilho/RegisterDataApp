@@ -11,6 +11,9 @@ namespace Services.Interfaces
     {
         public string CreateNewClient(Client client);
         public Client GetClientById(int id);
+        public Client GetClientByEmail(string email);
+        public Client GetClientByContactEmail(string email);
+        public Client GetClientByPhone(string phone);
         public List<Client> GetAllClients();
         public string UpdateClient(Client updatedClient);
         public string DeleteClient(int id);

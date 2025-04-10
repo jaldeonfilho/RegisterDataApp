@@ -24,8 +24,8 @@ namespace Repository
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string query = "INSERT INTO Client (firstName, middleName, lastName, birthDate, email, acceptedRGDPT, contactName, contactEmail, contactPhone) " +
-                               "VALUES (@firstname, @middlename, @lastname, @birthdate, @email, @acceptedRGDPT, @contactName, @contactEmail, @contactPhone)";
+                string query = "INSERT INTO Client (firstName, middleName, lastName, birthDate, email, acceptedRGDPT, contactName, contactEmail, contactPhone, contactAddressId) " +
+                               "VALUES (@firstname, @middlename, @lastname, @birthdate, @email, @acceptedRGDPT, @contactName, @contactEmail, @contactPhone, @contactAddressId)";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -38,6 +38,8 @@ namespace Repository
                     cmd.Parameters.Add("@contactName", SqlDbType.VarChar).Value = client.ContactName;
                     cmd.Parameters.Add("@contactEmail", SqlDbType.VarChar).Value = client.ContactEmail;
                     cmd.Parameters.Add("@contactPhone", SqlDbType.VarChar).Value = client.ContactPhone;
+                    cmd.Parameters.Add("@contactAddressId", SqlDbType.Int).Value = client.ContactAddressId;
+
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -114,6 +116,7 @@ namespace Repository
 
         public Client GetClientByEmail(string email)
         {
+            Client client = new Client();
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 string query = "SELECT * FROM Client WHERE email = @email";
@@ -131,25 +134,53 @@ namespace Repository
 
                     if (con.State != ConnectionState.Open)
                         con.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            return new Client
-                            {
-                                Id = Convert.ToInt32(reader["id"].ToString()),
-                                FirstName = reader["firstName"].ToString(),
-                                MiddleName = reader["middleName"].ToString(),
-                                LastName = reader["lastName"].ToString(),
-                                BirtDate = Convert.ToDateTime(reader["birthDate"].ToString()),
-                                Email = reader["email"].ToString(),
-                                AcceptedRGDPT = Convert.ToBoolean(reader["acceptedRGD PT"].ToString()),
-                                ContactName = reader["contactName"].ToString(),
-                                ContactEmail = reader["contactEmail"].ToString(),
-                                ContactPhone = reader["contactPhone"].ToString(),
-                                ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString())
-                            };
-                        }
+                        client = new Client(reader["firstName"].ToString(), reader["middleName"].ToString(), reader["lastName"].ToString(),
+                            Convert.ToDateTime(reader["birthDate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
+                            reader["contactName"].ToString(), reader["contactEmail"].ToString(), reader["contactPhone"].ToString());
+
+                        client.Id = Convert.ToInt32(reader["id"].ToString());
+                        client.ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString());
+
+                        return client;
+                    }
+                }
+            }
+            return null;
+        }
+        public Client GetClientByContactEmail(string contactEmail)
+        {
+            Client client = new Client();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT * FROM Client WHERE contactEmail = @contactEmail";
+                //using (SqlCommand cmd = new SqlCommand(query, con))
+                //{
+                //    cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+
+                //    con.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = query;
+                    cmd.Connection = con;
+                    cmd.Parameters.Add("@contactEmail", SqlDbType.VarChar);
+                    cmd.Parameters["@contactEmail"].Value = contactEmail;
+
+                    if (con.State != ConnectionState.Open)
+                        con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        client = new Client(reader["firstName"].ToString(), reader["middleName"].ToString(), reader["lastName"].ToString(),
+                            Convert.ToDateTime(reader["birthDate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
+                            reader["contactName"].ToString(), reader["contactEmail"].ToString(), reader["contactPhone"].ToString());
+
+                        client.Id = Convert.ToInt32(reader["id"].ToString());
+                        client.ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString());
+
+                        return client;
                     }
                 }
             }
@@ -158,6 +189,7 @@ namespace Repository
 
         public Client GetClientByPhone(string phone)
         {
+            Client client = new Client();
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 string query = "SELECT * FROM Client WHERE contactPhone = @phone";
@@ -175,25 +207,17 @@ namespace Repository
 
                     if (con.State != ConnectionState.Open)
                         con.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            return new Client
-                            {
-                                Id = Convert.ToInt32(reader["id"].ToString()),
-                                FirstName = reader["firstName"].ToString(),
-                                MiddleName = reader["middleName"].ToString(),
-                                LastName = reader["lastName"].ToString(),
-                                BirtDate = Convert.ToDateTime(reader["birthDate"].ToString()),
-                                Email = reader["email"].ToString(),
-                                AcceptedRGDPT = Convert.ToBoolean(reader["acceptedRGD PT"].ToString()),
-                                ContactName = reader["contactName"].ToString(),
-                                ContactEmail = reader["contactEmail"].ToString(),
-                                ContactPhone = reader["contactPhone"].ToString(),
-                                ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString())
-                            };
-                        }
+                        client = new Client(reader["firstName"].ToString(), reader["middleName"].ToString(), reader["lastName"].ToString(),
+                            Convert.ToDateTime(reader["birthDate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
+                            reader["contactName"].ToString(), reader["contactEmail"].ToString(), reader["contactPhone"].ToString());
+
+                        client.Id = Convert.ToInt32(reader["id"].ToString());
+                        client.ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString());
+
+                        return client;
                     }
                 }
             }
@@ -202,6 +226,7 @@ namespace Repository
 
         public List<Client> GetAllClients()
         {
+            Client client = new Client();
             List<Client> clients = new List<Client>();
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -216,25 +241,17 @@ namespace Repository
 
                     if (con.State != ConnectionState.Open)
                         con.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            clients.Add(new Client
-                            {
-                                Id = Convert.ToInt32(reader["id"].ToString()),
-                                FirstName = reader["firstName"].ToString(),
-                                MiddleName = reader["middleName"].ToString(),
-                                LastName = reader["lastName"].ToString(),
-                                BirtDate = Convert.ToDateTime(reader["birthDate"].ToString()),
-                                Email = reader["email"].ToString(),
-                                AcceptedRGDPT = Convert.ToBoolean(reader["acceptedRGD PT"].ToString()),
-                                ContactName = reader["contactName"].ToString(),
-                                ContactEmail = reader["contactEmail"].ToString(),
-                                ContactPhone = reader["contactPhone"].ToString(),
-                                ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString())
-                            });
-                        }
+                        client = new Client(reader["firstName"].ToString(), reader["middleName"].ToString(), reader["lastName"].ToString(),
+                            Convert.ToDateTime(reader["birthDate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
+                            reader["contactName"].ToString(), reader["contactEmail"].ToString(), reader["contactPhone"].ToString());
+
+                        client.Id = Convert.ToInt32(reader["id"].ToString());
+                        client.ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString());
+
+                        clients.Add(client);
                     }
                 }
             }
