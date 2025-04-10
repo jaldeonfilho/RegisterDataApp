@@ -19,6 +19,8 @@ namespace Application.API
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddScoped<IClientServices, ClientServices>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

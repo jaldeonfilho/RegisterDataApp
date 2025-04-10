@@ -26,7 +26,7 @@ namespace Services
             return "Client created with success\n";
         }
 
-        public string UpdateEmployeeById(Client updatedClient)
+        public string UpdateClient(Client updatedClient)
         {
             // Verifica se o funcionário existe
             Client existingClient = _clientRepository.GetClientById(updatedClient.Id);

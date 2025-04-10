@@ -12,7 +12,7 @@ namespace Services.Interfaces
         public string CreateNewClient(Client client);
         public Client GetClientById(int id);
         public List<Client> GetAllClients();
-        public string UpdateEmployeeById(Client updatedClient);
+        public string UpdateClient(Client updatedClient);
         public string DeleteClient(int id);
 
     }

@@ -12,7 +12,7 @@ namespace Services.Interfaces
         public Employee GetEmployeeById(int id);
         public List<Employee> GetAllEmployee();
         public string CreateNewEmployee(Employee employee);
-        public string UpdateEmployeeById(Employee employee);
+        public string UpdateEmployee(Employee employee);
         public string DeleteEmployeeById(int id);
 
     }

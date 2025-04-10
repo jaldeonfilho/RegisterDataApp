@@ -79,7 +79,7 @@ namespace Services
             return message;
         }
 
-        public string UpdateEmployeeById(Employee employee)
+        public string UpdateEmployee(Employee employee)
         {
             // Verifica se o funcionário existe
             Employee existingEmployee = _employeeRepository.GetEmployeeById(employee.Id);

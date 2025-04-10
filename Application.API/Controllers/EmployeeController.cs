@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using Services;
 using Services.Interfaces;
 
 namespace Application.API.Controllers
@@ -33,14 +32,14 @@ namespace Application.API.Controllers
         [HttpPost]
         public IActionResult CreateEmployee(Employee employee)
         {
-            string messenger = _employeeServices.CreateNewEmployee(employee);
-            return Ok(messenger);
+            string msg = _employeeServices.CreateNewEmployee(employee);
+            return Ok(msg);
         }
 
         [HttpPut]
         public IActionResult UpdateEmployee(Employee employee)
         {
-            string messenger = _employeeServices.UpdateEmployeeById(employee);
+            string messenger = _employeeServices.UpdateEmployee(employee);
             return Ok(messenger);
         }
         [HttpDelete]
