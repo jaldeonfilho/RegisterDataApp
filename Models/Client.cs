@@ -15,13 +15,17 @@ namespace Models
         public int ContactAddressId { get; set; }
 
 
-        public Client() { }
+        public Client() {}
 
-        public Client(string firstName, string middleName, string lastName, DateTime birthdate, string email, string street1, string street2, int doorNumber, string city, string postalCode, string region, string locale) : base(firstName, middleName, lastName, birthdate, email, false)
+        public Client(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, string contactName, string contactEmail, string contactPhone) : base(firstName, middleName, lastName, birthdate, email, accpetedRgdpt)
         {
-            this.ContactName = FullName;
+            this.ContactName = contactName;
+            this.ContactEmail = contactEmail;
+            this.ContactPhone = contactPhone;
+        }
+        public Client(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, string street1, string street2, int doorNumber, string city, string postalCode, string region, string locale) : base(firstName, middleName, lastName, birthdate, email, accpetedRgdpt)
+        {
             this.ContactEmail = email;
-            this.MiddleName = ""; // This is a businees rule
             this.ContactAddress = new Address(street1, street2, doorNumber, city, postalCode, region, locale);
         }
 
@@ -29,6 +33,5 @@ namespace Models
         {
             return "BANZAI!";
         }
-
     }
 }

@@ -37,7 +37,6 @@ namespace Models
             this.BirtDate = birthdate;
             this.Email = email;
             this.AcceptedRGDPT = accpetedRgdpt;
-            //this.AddressId = addressId;
         }
 
         internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, 

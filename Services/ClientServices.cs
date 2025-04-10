@@ -40,6 +40,8 @@ namespace Services
             // Atualiza os dados do funcionário
             //updatedClient.Id = existingClient.Id; // Manter o ID do endereço
             _clientRepository.UpdateClient(updatedClient);
+            updatedClient.ContactAddressId = _addressServices.CreateNewAddress(updatedClient.ContactAddress);
+            updatedClient.ContactAddress.Id = updatedClient.ContactAddressId;
             return "Client Updated with success\n";
         }
 

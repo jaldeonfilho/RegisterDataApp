@@ -38,7 +38,6 @@ namespace Repository
                     cmd.Parameters.Add("@contactName", SqlDbType.VarChar).Value = client.ContactName;
                     cmd.Parameters.Add("@contactEmail", SqlDbType.VarChar).Value = client.ContactEmail;
                     cmd.Parameters.Add("@contactPhone", SqlDbType.VarChar).Value = client.ContactPhone;
-                    //cmd.Parameters.Add("@contactAddressId", SqlDbType.Int).Value = client.ContactAddressId;
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -52,7 +51,7 @@ namespace Repository
             {
                 string query = "UPDATE Client SET firstName = @firstname, middleName = @middlename, lastName = @lastname, " +
                                "birthDate = @birthdate, email = @email, acceptedRGDPT = @acceptedRGDPT, " +
-                               "contactName = @contactName, contactEmail = @contactEmail, contactPhone = @contactPhone, contactAddressId = @contactAddressId WHERE id = @id";
+                               "contactName = @contactName, contactEmail = @contactEmail, contactPhone = @contactPhone WHERE id = @id";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -66,7 +65,6 @@ namespace Repository
                     cmd.Parameters.Add("@contactName", SqlDbType.VarChar).Value = client.ContactName;
                     cmd.Parameters.Add("@contactEmail", SqlDbType.VarChar).Value = client.ContactEmail;
                     cmd.Parameters.Add("@contactPhone", SqlDbType.VarChar).Value = client.ContactPhone;
-                    cmd.Parameters.Add("@contactAddressId", SqlDbType.Int).Value = client.ContactAddressId;
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -76,6 +74,8 @@ namespace Repository
 
         public Client GetClientById(int id)
         {
+            Client client = new Client();
+            client.ContactAddress = new Address();
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 string query = "SELECT * FROM Client WHERE id = @id";
@@ -91,27 +91,21 @@ namespace Repository
                     cmd.Parameters.Add("@id", SqlDbType.Int);
                     cmd.Parameters["@id"].Value = id;
 
+
                     if (con.State != ConnectionState.Open)
                         con.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            return new Client
-                            {
-                                Id = Convert.ToInt32(reader["id"].ToString()),
-                                FirstName = reader["firstName"].ToString(),
-                                MiddleName = reader["middleName"].ToString(),
-                                LastName = reader["lastName"].ToString(),
-                                BirtDate = Convert.ToDateTime(reader["birthDate"].ToString()),
-                                Email = reader["email"].ToString(),
-                                AcceptedRGDPT = Convert.ToBoolean(reader["acceptedRGD PT"].ToString()),
-                                ContactName = reader["contactName"].ToString(),
-                                ContactEmail = reader["contactEmail"].ToString(),
-                                ContactPhone = reader["contactPhone"].ToString(),
-                                ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString())
-                            };
-                        }
+                        client = new Client(reader["firstName"].ToString(), reader["middleName"].ToString(), reader["lastName"].ToString(), 
+                            Convert.ToDateTime(reader["birthDate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()), 
+                            reader["contactName"].ToString(), reader["contactEmail"].ToString(), reader["contactPhone"].ToString());
+
+                        client.Id = Convert.ToInt32(reader["id"].ToString());
+                        client.ContactAddressId = Convert.ToInt32(reader["contactAddressId"].ToString());
+                        
+                        return client;
                     }
                 }
             }

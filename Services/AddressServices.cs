@@ -21,6 +21,9 @@ namespace Services
         public Address GetAddressById(int id)
         {
             Address address = _addressRepository.GetAddressById(id);
+            if (address != null)
+                address.Id = id;
+
             return address;
         }
 

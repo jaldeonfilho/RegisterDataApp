@@ -146,10 +146,11 @@ namespace Repository
                     while (reader.Read())
                     {
                         employee = new Employee(reader["firstname"].ToString(), reader["middlename"].ToString(), reader["lastname"].ToString(), 
-                            Convert.ToDateTime(reader["birthdate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()), Convert.ToInt32(reader["addressId"].ToString()),
+                            Convert.ToDateTime(reader["birthdate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
                             Convert.ToInt32(reader["nib"].ToString()), Convert.ToInt32(reader["nif"].ToString()),
                             reader["jobRole"].ToString(), reader["jobDescription"].ToString(), reader["managerName"].ToString(), address);
                         employee.JobId = Convert.ToInt32(reader["jobInfoId"].ToString());
+                        employee.AddressId = Convert.ToInt32(reader["addressId"].ToString());
                     }
                     employee.Id = id;
                     
@@ -180,7 +181,7 @@ namespace Repository
                     while (reader.Read())
                     {
                         Employee employee = new Employee(reader["firstname"].ToString(), reader["middlename"].ToString(), reader["lastname"].ToString(),
-                             Convert.ToDateTime(reader["birthdate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()), Convert.ToInt32(reader["addressId"].ToString()),
+                             Convert.ToDateTime(reader["birthdate"].ToString()), reader["email"].ToString(), Convert.ToBoolean(reader["acceptedRGDPT"].ToString()),
                              Convert.ToInt32(reader["nib"].ToString()), Convert.ToInt32(reader["nif"].ToString()),
                              "", "", reader["managerName"].ToString(), address);
                         employee.Id = Convert.ToInt32(reader["id"].ToString());
@@ -216,7 +217,7 @@ namespace Repository
                     foreach (DataRow dr in dt.Rows)
                     {
                         Employee employee = new Employee(dr["firstname"].ToString(), dr["middlename"].ToString(), dr["lastname"].ToString(), Convert.ToDateTime(dr["birthdate"].ToString()),
-                            dr["email"].ToString(), Convert.ToBoolean(dr["acceptedRGDPT"].ToString()), Convert.ToInt32(dr["addressId"]), Convert.ToInt32(dr["nib"].ToString()), Convert.ToInt32(dr["nif"].ToString()),
+                            dr["email"].ToString(), Convert.ToBoolean(dr["acceptedRGDPT"].ToString()), Convert.ToInt32(dr["nib"].ToString()), Convert.ToInt32(dr["nif"].ToString()),
                             "", "", dr["managerName"].ToString(), address);
                         employee.Id = Convert.ToInt32(dr["id"].ToString());
                         _listEmployees.Add(employee);

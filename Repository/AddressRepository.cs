@@ -71,6 +71,7 @@ namespace Repository
                         DataRow dr = dt.Rows[0];
                         address = new Address(dr["street1"].ToString(), dr["street2"].ToString(), Convert.ToInt32(dr["number"].ToString()),
                             dr["city"].ToString(), dr["postalCode"].ToString(), dr["region"].ToString(), dr["locale"].ToString());
+                        address.Id = Convert.ToInt32(dr["id"].ToString());
                     }
 
                     //foreach (DataRow dr in dt.Rows)
