@@ -19,10 +19,13 @@ namespace Models
         public string Email { get; set; }
         public Address Address { get; set; }
         public bool AcceptedRGDPT { get; set; }
-
         public int AddressId { get; set; }
 
-        internal Person() { }
+        internal Person() 
+        {
+            this.FullName = SetFullName(FirstName, MiddleName, LastName);
+            this.Age = GetAge(BirtDate);
+        }
 
         internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId) : this()
         {
