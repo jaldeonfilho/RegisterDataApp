@@ -21,7 +21,7 @@ namespace Services
         public string CreateNewClient(Client client)
         {
             _clientRepository.CreateNewClient(client);
-            _addressServices.CreateNewAddress(client.ContactAddress);
+            client.ContactAddressId = _addressServices.CreateNewAddress(client.ContactAddress);
             client.ContactAddress.Id = client.ContactAddressId;
             return "Client created with success\n";
         }

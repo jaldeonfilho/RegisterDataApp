@@ -30,8 +30,8 @@ namespace Repository
             {
                 con.Open();
 
-                string query = "INSERT INTO Employees (firstname, middlename, lastname, birthdate, email, acceptedRGDPT, addressId, nib, nif, managerName) " +
-                               "VALUES (@firstname, @middlename, @lastname, @birthdate, @email, @acceptedRGDPT, @addressId, @nib, @nif, @managerName)";
+                string query = "INSERT INTO Employees (firstname, middlename, lastname, birthdate, email, acceptedRGDPT, nib, nif, managerName) " +
+                               "VALUES (@firstname, @middlename, @lastname, @birthdate, @email, @acceptedRGDPT, @nib, @nif, @managerName)";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@firstname", employee.FirstName);
@@ -40,7 +40,7 @@ namespace Repository
                     cmd.Parameters.AddWithValue("@birthdate", employee.BirtDate);
                     cmd.Parameters.AddWithValue("@email", employee.Email);
                     cmd.Parameters.AddWithValue("@acceptedRGDPT", employee.AcceptedRGDPT);
-                    cmd.Parameters.AddWithValue("@addressId", employee.AddressId);
+                    //cmd.Parameters.AddWithValue("@addressId", employee.AddressId);
                     cmd.Parameters.AddWithValue("@nib", employee.NIB);
                     cmd.Parameters.AddWithValue("@nif", employee.NIF);
                     cmd.Parameters.AddWithValue("@managerName", employee.ManagerName);

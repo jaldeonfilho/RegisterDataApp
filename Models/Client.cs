@@ -17,7 +17,7 @@ namespace Models
 
         public Client() { }
 
-        public Client(string firstName, string middleName, string lastName, DateTime birthdate, string email, int addressId, string street1, string street2, int doorNumber, string city, string postalCode, string region, string locale) : base(firstName, middleName, lastName, birthdate, email, false, 0)
+        public Client(string firstName, string middleName, string lastName, DateTime birthdate, string email, string street1, string street2, int doorNumber, string city, string postalCode, string region, string locale) : base(firstName, middleName, lastName, birthdate, email, false)
         {
             this.ContactName = FullName;
             this.ContactEmail = email;

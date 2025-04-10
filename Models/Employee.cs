@@ -21,9 +21,9 @@ namespace Models
 
         }
 
-        public Employee(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId, 
+        public Employee(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, 
             int nib, int nif, string jobRole, string jobDescription, string managerName) : 
-            base(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, addressId)
+            base(firstName, middleName, lastName, birthdate, email, accpetedRgdpt)
         {
             this.NIF = nif;
             this.NIB = nib;
@@ -32,9 +32,9 @@ namespace Models
             this.ManagerName = managerName;
         }
 
-        public Employee(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId,
+        public Employee(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt,
             int nib, int nif, string jobRole, string jobDescription, string managerName, Address address) :
-            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, addressId, nif, nib, jobRole, jobDescription, managerName)
+            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, nif, nib, jobRole, jobDescription, managerName)
         {
             this.Address = address;
         }
@@ -43,14 +43,6 @@ namespace Models
         {
             string newText = this.FullName + " " + this.Age;
             return newText;
-        }
-
-        public Employee CreateNewEmployeeAndReturnContent(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId, 
-            int nib, int nif, string jobRole, string jobDescription, string managerName, Address address)
-        {
-            Employee employee = new Employee(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, addressId, 
-                nib, nif, jobRole, jobDescription, managerName, address);
-            return employee;
         }
 
         public override string GetUserFullName(int userId)

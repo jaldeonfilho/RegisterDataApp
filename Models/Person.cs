@@ -27,7 +27,7 @@ namespace Models
             this.Age = GetAge(BirtDate);
         }
 
-        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId) : this()
+        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt) : this()
         {
             this.FirstName = firstName;
             this.MiddleName = middleName;
@@ -37,18 +37,18 @@ namespace Models
             this.BirtDate = birthdate;
             this.Email = email;
             this.AcceptedRGDPT = accpetedRgdpt;
-            this.AddressId = addressId;
+            //this.AddressId = addressId;
         }
 
-        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId, 
+        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, 
             string street1, string street2, int doorNumber, string city, string postalCode, string region, string locale) : 
-            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, addressId)
+            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt)
         {
             Address = new Address(street1, street2, doorNumber, city, postalCode, region, locale);
         }
-        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt, int addressId,
+        internal Person(string firstName, string middleName, string lastName, DateTime birthdate, string email, bool accpetedRgdpt,
             Address address) :
-            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt, addressId)
+            this(firstName, middleName, lastName, birthdate, email, accpetedRgdpt)
         {
             Address = address;
         }
